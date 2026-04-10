@@ -1,0 +1,17 @@
+# Common dependencies for all showcases
+# Specific showcases may have additional requirements - see their directories
+
+# Core
+numpy>=1.21.0
+pyyaml>=6.0
+
+# Simulation / Robotics
+mujoco>=3.0.0
+mujoco Menifess>=0.0.3
+
+# ROS2 (optional - install manually if needed)
+# pip install rclpy
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
