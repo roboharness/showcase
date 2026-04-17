@@ -1,0 +1,52 @@
+name: Showcase CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lerobot-eval-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+      - name: Create venv
+        run: uv venv
+      - name: Run LeRobot eval smoke
+        run: |
+          cd lerobot-eval
+          SMOKE=1 ./run.sh
+      - name: Verify results.json
+        run: |
+          test -f lerobot-eval/harness_output/lerobot_eval/results.json
+          python -c "import json; d=json.load(open('lerobot-eval/harness_output/lerobot_eval/results.json')); assert d['framework']=='lerobot'; assert d['status']=='success'"
+
+  groot-wbc-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+      - name: Create venv
+        run: uv venv
+      - name: Run GR00T WBC smoke
+        run: |
+          cd groot-wbc
+          SMOKE=1 ./run.sh
+      - name: Verify results.json
+        run: |
+          test -f groot-wbc/harness_output/groot_wbc/results.json
+          python -c "import json; d=json.load(open('groot-wbc/harness_output/groot_wbc/results.json')); assert d['framework']=='gr00t-wbc'; assert d['status']=='success'"
