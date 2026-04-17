@@ -15,8 +15,11 @@ Visual regression testing for LeRobot policies using roboharness.
 ## Quick Start
 
 ```bash
-# From PyPI (default)
+# Default: install roboharness from git main (latest)
 ./run.sh
+
+# From PyPI (stable release)
+ROBOHARNESS_PYPI=1 ./run.sh
 
 # From local roboharness source
 ROBOHARNESS_SRC=../roboharness ./run.sh

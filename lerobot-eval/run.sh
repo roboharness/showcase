@@ -20,7 +20,8 @@ fi
 source .venv/bin/activate
 
 # ------------------------------------------------------------------
-# Local dev mode: install roboharness from source if ROBOHARNESS_SRC is set
+# Install roboharness
+# Priority: ROBOHARNESS_SRC > local source > git main > PyPI
 # ------------------------------------------------------------------
 if [ -n "${ROBOHARNESS_SRC:-}" ]; then
     if [ ! -f "$ROBOHARNESS_SRC/pyproject.toml" ]; then
@@ -33,19 +34,26 @@ if [ -n "${ROBOHARNESS_SRC:-}" ]; then
     else
         pip install -e "$ROBOHARNESS_SRC[demo]"
     fi
+elif [ "${ROBOHARNESS_PYPI:-0}" == "1" ]; then
+    echo "[pypi] Installing roboharness from PyPI"
 else
-    echo "[prod] Using roboharness from PyPI"
+    echo "[git] Installing roboharness from main branch"
+    if command -v uv &> /dev/null; then
+        uv pip install "roboharness[demo] @ git+https://github.com/MiaoDX/roboharness.git"
+    else
+        pip install "roboharness[demo] @ git+https://github.com/MiaoDX/roboharness.git"
+    fi
 fi
 
 # ------------------------------------------------------------------
-# Ensure dependencies are installed
+# Ensure showcase dependencies are installed
 # Smoke mode only needs [demo] + classic-control rendering; full mode needs [lerobot]
 # ------------------------------------------------------------------
 if [ "${SMOKE:-0}" == "1" ]; then
     if command -v uv &> /dev/null; then
-        uv pip install roboharness[demo] "gymnasium[classic-control]"
+        uv pip install "gymnasium[classic-control]"
     else
-        pip install roboharness[demo] "gymnasium[classic-control]"
+        pip install "gymnasium[classic-control]"
     fi
 else
     if command -v uv &> /dev/null; then

@@ -15,8 +15,11 @@ Whole-body control integration with NVIDIA GR00T WBC and roboharness.
 ## Quick Start
 
 ```bash
-# Smoke mode (fast validation, no GR00T install required)
+# Default: install roboharness from git main (latest)
 SMOKE=1 ./run.sh
+
+# From PyPI (stable release)
+ROBOHARNESS_PYPI=1 SMOKE=1 ./run.sh
 
 # From local roboharness source
 ROBOHARNESS_SRC=../roboharness SMOKE=1 ./run.sh

@@ -19,15 +19,24 @@ cd showcase/lerobot-eval
 | LeRobot     | ✅     | GPU      | ~5 min  | v0.2.2      |
 | GR00T WBC   | ✅     | GPU      | ~3 min  | v0.2.2      |
 
-## Local Development Mode
+## Install Modes
 
-Test local roboharness changes without publishing to PyPI:
+Each `run.sh` automatically creates a virtual environment and installs roboharness.
 
+**Default** — latest from git main (so showcases always ship the newest integrations):
+```bash
+./run.sh
+```
+
+**PyPI** — stable release:
+```bash
+ROBOHARNESS_PYPI=1 ./run.sh
+```
+
+**Local source** — test your local roboharness changes:
 ```bash
 ROBOHARNESS_SRC=../roboharness ./run.sh
 ```
-
-Each `run.sh` uses `uv` for fast editable installs when `ROBOHARNESS_SRC` is set.
 
 ## Smoke Mode
 
